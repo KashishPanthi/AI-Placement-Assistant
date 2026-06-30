@@ -1,0 +1,35 @@
+package com.tnp.ai_placement_assistant.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "resumes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Resume {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(columnDefinition = "TEXT")
+    private String extractedText;
+
+    private String fileName;
+
+    private LocalDateTime uploadedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        uploadedAt = LocalDateTime.now();
+    }
+}
